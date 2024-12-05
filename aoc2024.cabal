@@ -1,0 +1,62 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.37.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           aoc2024
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/aoc2024#readme>
+homepage:       https://github.com/githubuser/aoc2024#readme
+bug-reports:    https://github.com/githubuser/aoc2024/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2024 Author name here
+license:        BSD-3-Clause
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/aoc2024
+
+executable day1
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc2024
+  autogen-modules:
+      Paths_aoc2024
+  hs-source-dirs:
+      ./1
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2
+  build-depends:
+      base >=4.7 && <5
+    , containers
+  default-language: GHC2021
+
+executable day2
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc2024
+  autogen-modules:
+      Paths_aoc2024
+  hs-source-dirs:
+      ./2
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2
+  build-depends:
+      base >=4.7 && <5
+  default-language: GHC2021
+
+executable day3
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc2024
+  autogen-modules:
+      Paths_aoc2024
+  hs-source-dirs:
+      ./3
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2
+  build-depends:
+      base >=4.7 && <5
+    , mtl
+    , transformers
+  default-language: GHC2021
