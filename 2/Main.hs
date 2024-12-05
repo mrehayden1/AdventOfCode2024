@@ -1,9 +1,10 @@
-import Data.List
+import Data.List (inits, tails)
 import System.Environment
 
 type Report = [Int]
 type Input = [Report]
 
+main :: IO ()
 main = do
   args <- getArgs
   if null args
@@ -26,6 +27,7 @@ isSafe report =
 part2 :: Input -> IO ()
 part2 = print . length . filter isSafe2
 
+isSafe2 :: Report -> Bool
 isSafe2 report =
   isSafe report
     || (any isSafe . zipWith (++) (inits report) . fmap (drop 1) tails $ report)

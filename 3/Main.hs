@@ -10,7 +10,7 @@ newtype Parser s a = Parser {
   unParser :: MaybeT (State (s, Input)) a
 } deriving (Applicative, Alternative, Functor, Monad, MonadFail)
 
-type InstructionParser = Parser Bool
+type Interpreter = Parser Bool
 
 instance MonadState s (Parser s) where
   get   = Parser . lift . gets $ fst
@@ -31,25 +31,34 @@ main = do
     else do
       input <- readFile . head $ args
       print . flip evalState (True, input) . runMaybeT . unParser
-        $ readInstructions
+        $ eval
+      print . flip evalState (True, input) . runMaybeT . unParser
+        $ eval2
 
-readInstructions :: InstructionParser Int
-readInstructions =
+eval :: Interpreter Int
+eval =
   0 <$ eof <|> do
-    try readDo <|> return ()
-    readDont <|> return ()
-    n <- readMul <|> 0 <$ anyChar
-    ns <- readInstructions
+    n <- evalMul <|> 0 <$ anyChar
+    ns <- eval
     return $ n + ns
 
-readDo :: InstructionParser ()
-readDo = string "do()" >> put True
+eval2 :: Interpreter Int
+eval2 =
+  0 <$ eof <|> do
+    try evalDo <|> return ()
+    evalDont <|> return ()
+    n <- evalMul <|> 0 <$ anyChar
+    ns <- eval2
+    return $ n + ns
 
-readDont :: InstructionParser ()
-readDont = string "don't()" >> put False
+evalDo :: Interpreter ()
+evalDo = string "do()" >> put True
 
-readMul :: InstructionParser Int
-readMul = do
+evalDont :: Interpreter ()
+evalDont = string "don't()" >> put False
+
+evalMul :: Interpreter Int
+evalMul = do
   string_ "mul("
   (x :: Int) <- fmap read . many . oneOf $ ['0'..'9']
   char_ ','
