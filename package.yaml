@@ -53,3 +53,5 @@ executables:
   day4:
     main:                Main.hs
     source-dirs:         ./4
+    dependencies:
+    - containers
