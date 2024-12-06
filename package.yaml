@@ -49,3 +49,7 @@ executables:
     dependencies:
     - mtl
     - transformers
+
+  day4:
+    main:                Main.hs
+    source-dirs:         ./4

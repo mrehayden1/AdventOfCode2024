@@ -60,3 +60,16 @@ executable day3
     , mtl
     , transformers
   default-language: GHC2021
+
+executable day4
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc2024
+  autogen-modules:
+      Paths_aoc2024
+  hs-source-dirs:
+      ./4
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2
+  build-depends:
+      base >=4.7 && <5
+  default-language: GHC2021
