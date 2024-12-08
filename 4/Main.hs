@@ -21,20 +21,22 @@ part1 input = do
       diags = diagonals rows
 
   print . length
-    . filter (liftA2 (||) (isPrefixOf "XMAS") (isPrefixOf "SAMX"))
-    . concatMap (concatMap tails)
+    . concatMap (concatMap (filter matchesXmas . tails))
     $ [rows, cols, diags]
 
+ where
+  matchesXmas :: String -> Bool
+  matchesXmas = liftA2 (||) (isPrefixOf "XMAS") (isPrefixOf "SAMX")
+
 diagonals :: [[a]] -> [[a]]
-diagonals rows = (diagonals' . fmap reverse $ rows) ++ diagonals' rows
+diagonals = (++) <$> diagonals' . fmap reverse <*> diagonals'
  where
   diagonals' :: [[a]] -> [[a]]
-  diagonals' xs =
-    let xs' = rotate xs
-    in gen xs ++ (tail . gen $ xs')
-   where
-    gen = transpose . zipWith drop [0..]
+  diagonals' = (++)
+    <$> transpose . zipWith drop [0..]
+    <*> tail . transpose . zipWith drop [0..] . rotate
 
+   where
     rotate :: [[a]] -> [[a]]
     rotate = reverse . fmap reverse
 
@@ -52,8 +54,9 @@ part2 input = do
 
 xMasAt :: Map (Int, Int) Char -> (Int, Int) -> Bool
 xMasAt cells (i, j) =
-  cells M.! (i+1, j+1) == 'A'
-    && ((cells M.! (i, j) == 'M' && cells M.! (i+2, j+2) == 'S')
-         || (cells M.! (i, j) == 'S' && cells M.! (i+2, j+2) == 'M'))
-    && ((cells M.! (i+2, j) == 'M' && cells M.! (i, j+2) == 'S')
-         || (cells M.! (i+2, j) == 'S' && cells M.! (i, j+2) == 'M'))
+  let c  = cells M.! (i+1, j+1)
+      nw = cells M.! (i, j)
+      se = cells M.! (i+2, j+2)
+      ne = cells M.! (i+2, j)
+      sw = cells M.! (i, j+2)
+  in c == 'A' && elem [nw, se] ["MS", "SM"] && elem [ne, sw] ["MS", "SM"]
